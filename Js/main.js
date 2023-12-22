@@ -1,0 +1,82 @@
+var siteName = document.getElementById('name');
+var url = document.getElementById('email');
+var btnSub = document.getElementsByClassName('btn-sub');
+var btnVisit = document.getElementsByClassName('btn-visit');
+var btnDelete = document.getElementsByClassName('btn-delete');
+var booksList = [];
+
+if (localStorage.getItem('list') !== null){
+    booksList=JSON.parse(localStorage.getItem('list'))
+    display();
+}
+
+function createBook(){
+    var books = {
+        name:siteName.value,
+        email:url.value,
+    }
+    console.log(books);
+    booksList.push(books);
+    localStorage.setItem('list',JSON.stringify(booksList));
+    clearForm()
+    display()
+}
+
+function clearForm(){
+    siteName.value = '';
+    url.value = '';
+}
+
+function display(){
+    var trs = '';
+    for( var i = 0 ; i < booksList.length ; i++){
+        trs += `
+        
+        <tr>
+            <td>${i+1}</td>
+            <td>${booksList[i].name}</td>              
+            <td>
+                <button class="btn btn-visit" data-index="0" onclick="visitWebsite(e)">
+                    <i class="fa-solid fa-eye pe-2"></i>Visit
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-delete pe-2" data-index="0" onclick="deleteForm()">
+                    <i class="fa-solid fa-trash-can"></i>
+                    Delete
+                </button>
+            </td>
+        </tr>
+        `
+    }
+    document.getElementById('tableBody').innerHTML= trs;
+}
+
+function deleteForm(index){
+    booksList.splice(index,1);
+    localStorage.setItem('list',JSON.stringify(booksList));
+    display();
+}
+// for(var i = 0 ; i < btnVisit.length; i++){
+//     btnVisit[i].addEventListener('click', function(e) {
+//     var websiteIndex = e.target.dataset.index;
+//     var httpsRegex = /^https?:\/\//;
+//     if (httpsRegex.test(booksList[websiteIndex].email)) {
+//         open(booksList[websiteIndex].email);
+//     } else {
+//         open(`https://${booksList[websiteIndex].email}`);
+//     }
+// });
+// }
+
+for(var i = 0 ; i < btnVisit.length; i++){
+    btnVisit[i].addEventListener('click', function(e) {
+    var websiteIndex = e.target.dataset.index;
+    var httpsRegex = /^https?:\/\//;
+    if (httpsRegex.test(booksList[websiteIndex].email)) {
+        open(`https://${booksList[websiteIndex].email}`);
+    } else {
+        open(`https://${booksList[websiteIndex].email}`);
+    }
+});
+}
