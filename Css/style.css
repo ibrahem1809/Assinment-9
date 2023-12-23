@@ -44,7 +44,7 @@ hr {
     background-image: linear-gradient(to right, #3ca55c, #b5ac49);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    width: 500px;
+    width: 80%;
     margin: auto;
 }
 
